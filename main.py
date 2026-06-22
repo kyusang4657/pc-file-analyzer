@@ -3,7 +3,7 @@ from pathlib import Path
 # 사용자 입력
 folder_input = input("분석할 폴더 경로를 입력하세요: ")
 
-# 입력갑 정리
+# 입력값 정리
 folder_input = folder_input.strip().strip('"')
 
 # 문자열을 Path 객체로 변환
@@ -25,7 +25,7 @@ else:
     folder_count = 0 # 폴더 개수
     extension_counts = {} # 딕셔너리 : 키 -> 값 형식으로 데이터를 저장
     total_size = 0 # 파일 전체 용량
-    large_file = []
+    large_files = []
 
     print()
     print("[하위 폴더 포함 항목 목록]")
@@ -44,7 +44,7 @@ else:
             file_size = item.stat().st_size
             total_size += file_size
 
-            large_file.append((relative_path, file_size))
+            large_files.append((relative_path, file_size))
 
             # 파일 확장자 통계 계산
             extension = item.suffix
@@ -66,12 +66,14 @@ else:
     print("[확장자별 파일 개수]")
     for extension, count in extension_counts.items():
         print(f"{extension}: {count}개")
-
-    large_file.sort(key=lambda file_info: file_info[1], reverse=True)
+    # key=, reverse= 는 파이썬에서 키워드 인자라고 한다.
+    # sort()함수는 large_file 리스트를 파일 크기 기준으로 내림차순 정렬만 한 코드
+    large_files.sort(key=lambda file_data: file_data[1], reverse=True)
     print()
     print("[용량이 큰 파일 TOP 10]")
 
-    for index, file_info in enumerate(large_file[:10], start=1): # large_file 리스트를 정렬
+    # 정렬된 파일 목록 중 앞 10개를 번호와 함계 출력
+    for index, file_info in enumerate(large_files[:10], start=1):
         file_path = file_info[0]
         file_size = file_info[1]
         file_size_mb = file_size / (1024 * 1024)
