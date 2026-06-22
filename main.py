@@ -49,6 +49,9 @@ else:
             # 파일 확장자 통계 계산
             extension = item.suffix
 
+            if extension == "":
+                extension = "확장자 없음"
+
             if extension in extension_counts:
                 extension_counts[extension] += 1
             else:
@@ -60,8 +63,7 @@ else:
     print("[분석 결과]")
     print(f"파일 개수: {file_count}개")
     print(f"폴더 개수: {folder_count}개")
-    print(f"전체 파일 용량: {total_size} bytes")
-    print(f"전체 파일 용량: {total_size_mb:.2f} MB")
+    print(f"전체 파일 용량: {total_size_mb:.2f} MB {total_size} bytes")
     print()
     print("[확장자별 파일 개수]")
     for extension, count in extension_counts.items():
